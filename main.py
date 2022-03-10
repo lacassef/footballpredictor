@@ -5,11 +5,11 @@
 
 import persistence
 
-
 import matchservices
-from model.optimizedmodels import AwaitingResultsModel
+from model.optimizedmodels import AwaitingResultsModel, AiTrainingModel
 
-if __name__ == '__main__':
+
+def update_awaited_matches():
     tod = matchservices.get_today_matches()
     notDup = persistence.check_already_awaiting(tod)
     awaited = []
@@ -26,4 +26,42 @@ if __name__ == '__main__':
             if fields is None:
                 fields = [*awai.__dict__.keys()]
     persistence.save_awaiting_games(fields, awaited)
-    ok = persistence.load_awaiting_games()
+    if len(awaited) > 0:
+        print('Jogos adicionados!')
+    else:
+        print('Sem novos jogos!')
+
+
+def update_results():
+    loads = persistence.load_awaiting_games()
+    okw = persistence.check_already_training(loads)
+    training = []
+    fields: [] = None
+    for l in okw:
+        # print('Executed')
+        m = matchservices.get_match(l.id)
+        if m.status == 100 or m.status == 120 or m.status == 110:
+            i = AiTrainingModel()
+            i.build_model(m, l)
+            # print(i)
+            training.append(i.__dict__)
+            if fields is None:
+                fields = [*i.__dict__.keys()]
+    persistence.save_training_games(fields, training)
+    if len(training) > 0:
+        print('Resultados atualizados!')
+    else:
+        print('Sem novos resultados!')
+
+
+if __name__ == '__main__':
+    print('Realizando check-ups')
+    update_awaited_matches()
+    update_results()
+    while True:
+        print('Escolha a sua operação (zero para sair):')
+        ok = int(input('Esc: \n '))
+        if ok == 0:
+            break
+
+    pass

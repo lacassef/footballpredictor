@@ -414,14 +414,15 @@ class AiTrainingModel:
     home: int = 0
     draw: int = 0
     away: int = 0
+    id: int = 0
 
     def build_model(self, match: Match, awaited: AwaitingResultsModel):
         if match.scoreHome > match.scoreAway:
-            home = 1
-        if match.scoreHome < match.scoreAway:
-            away = 1
-        if match.scoreHome == match.scoreAway:
-            draw = 1
+            self.home = 1
+        elif match.scoreHome < match.scoreAway:
+            self.away = 1
+        elif match.scoreHome == match.scoreAway:
+            self.draw = 1
         self.id = awaited.id
         self.accurateCrosses = awaited.accurateCrosses
         self.accurateFinalThirdPassesAgainst = awaited.accurateFinalThirdPassesAgainst
