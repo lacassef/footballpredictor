@@ -9,7 +9,10 @@ from model.football import Match, TeamPerformance
 def get_today_matches() -> list:
     # print('getting...')
     req = requests.get(f'http://localhost:8081/api/matches/schedules/{round(time.time() * 1000)}')
-    return req.json()
+    if req.status_code == 200:
+        return req.json()
+    else:
+        return []
 
 
 def get_matches_from_date(year, month, day) -> list:
@@ -22,6 +25,7 @@ def get_matches_from_date(year, month, day) -> list:
 def get_match(mId: int) -> Match:
     # print('getting...')
     req = requests.get(f'http://localhost:8081/api/matches/{mId}')
+    # print(mId)
     match = req.json()
     matchw = Match(id=match['id'], league=match['tournament']['id'], custom=match['customId'],
                    season=match['tournament']['season'], home=match['home']['id'],
