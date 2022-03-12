@@ -18,8 +18,12 @@ def update_awaited_matches():
     for mat in notDup:
         if mat['status'] == 0:
             ma = matchservices.get_match(mat['id'])
-            perfH = matchservices.get_performance(ma.home, ma.season, ma.league)
-            perfA = matchservices.get_performance(ma.away, ma.season, ma.league)
+            try:
+                perfH = matchservices.get_performance(ma.home, ma.season, ma.league)
+                perfA = matchservices.get_performance(ma.away, ma.season, ma.league)
+            except:
+                print(f'Jogo {ma.homeName} vs {ma.awayName} sem dados')
+                continue
             awai = AwaitingResultsModel()
             awai.build_from_data(ma, perfH, perfA)
             awaited.append(awai.__dict__)
@@ -39,7 +43,11 @@ def update_results():
     fields: [] = None
     for l in okw:
         # print('Executed')
-        m = matchservices.get_match(l.id)
+        try:
+            m = matchservices.get_match(l.id)
+        except:
+            print(f'Jogo {l.id} sem match')
+            continue
         if m.status == 100 or m.status == 120 or m.status == 110:
             i = AiTrainingModel()
             i.build_model(m, l)

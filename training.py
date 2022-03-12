@@ -1,16 +1,13 @@
 import pandas
-from keras.models import Sequential
-from keras.layers import Dense
+
 
 # mlp for multi-label classification
-from numpy import mean, asarray
-from numpy import std
-from sklearn.datasets import make_multilabel_classification
+from numpy import mean, asarray, std
 from sklearn.model_selection import RepeatedKFold
 from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import Normalizer
+from sklearn.preprocessing import MinMaxScaler
 
 
 def get_training_data():
@@ -18,7 +15,7 @@ def get_training_data():
     dataset = dataframe.drop('awardedMatches', axis=1).drop('id', axis=1).values
     X = dataset[:, 0:98].astype(float)
     y = dataset[:, 98:].astype(int)
-    st_x = Normalizer()
+    st_x = MinMaxScaler()
     X = st_x.fit_transform(X)
     return X, y
 
