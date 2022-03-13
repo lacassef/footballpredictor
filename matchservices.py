@@ -19,7 +19,10 @@ def get_matches_from_date(year, month, day) -> list:
     # print('getting...')
     date = datetime(year=year, month=month, day=day, hour=12, minute=30)
     req = requests.get(f'http://localhost:8081/api/matches/schedules/{round(date.timestamp() * 1000)}')
-    return req.json()
+    if req.status_code == 200:
+        return req.json()
+    else:
+        return []
 
 
 def get_match(mId: int) -> Match:
