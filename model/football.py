@@ -8,7 +8,8 @@ class Match:
     custom: str
     season: int
     home: int
-    time: int
+    time: str
+    date: str
     away: int
     status: int
     scoreHome: int

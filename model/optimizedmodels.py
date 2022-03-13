@@ -740,3 +740,4 @@ class AiPredictionResult:
     homeWin: str
     draw: str
     awayWin: str
+    date: str

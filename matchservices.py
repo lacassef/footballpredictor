@@ -31,7 +31,7 @@ def get_match(mId: int) -> Match:
                    season=match['tournament']['season'], home=match['home']['id'],
                    away=match['away']['id'], status=match['status'], scoreHome=match['home']['score'],
                    scoreAway=match['away']['score'], awayName=match['away']['name'], homeName=
-                   match['home']['name'], time= match['time'])
+                   match['home']['name'], time= match['time'], date = match['date'])
     return matchw
 
 

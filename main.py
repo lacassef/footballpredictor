@@ -2,6 +2,7 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import pandas as pd
 
 import persistence
 
@@ -65,6 +66,7 @@ def update_results():
 
 def predict_today():
     tod = matchservices.get_today_matches()
+    results = []
     for i in tod:
         if i['status'] == 0:
             ma = matchservices.get_match(i['id'])
@@ -80,9 +82,15 @@ def predict_today():
             wi.build_model(awai)
             pred = training.make_prediction(wi.__dict__)
             result = AiPredictionResult(home=ma.homeName, away=ma.awayName,
-                                        time=str(ma.time), homeWin=('%.2f%%' % pred[0]),
-                                        awayWin=('%.2f%%' % pred[2]), draw=('%.2f%%' % pred[1]))
-            print(result.__dict__)
+                                        time=ma.time, homeWin=('%.2f%%' % pred[0]),
+                                        awayWin=('%.2f%%' % pred[2]), draw=('%.2f%%' % pred[1]),
+                                        date = ma.date)
+            results.append(result)
+    if len(results)>0:
+        with pd.ExcelWriter('predicoes.xlsx',
+                        mode='a+') as writer:
+            df = pd.DataFrame(results)
+            df.to_excel(writer, sheet_name = results[0].date)
 
 
 if __name__ == '__main__':
