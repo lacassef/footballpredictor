@@ -310,6 +310,7 @@ class AwaitingResultsModel:
         self.yellowCardsAgainst = performance['yellowCardsAgainst']
         self.yellowRedCards = performance['yellowRedCards']
 
+
 @dataclasses.dataclass()
 class AiTrainingModel:
     accurateCrosses: float = 0.0
@@ -523,3 +524,219 @@ class AiTrainingModel:
         self.yellowCards = awaited.yellowCards
         self.yellowCardsAgainst = awaited.yellowCardsAgainst
         self.yellowRedCards = awaited.yellowRedCards
+
+
+@dataclasses.dataclass()
+class AiPredictionModel:
+    accurateCrosses: float = 0.0
+    accurateFinalThirdPassesAgainst: float = 0.0
+    accurateLongBalls: float = 0.0
+    accurateOppositionHalfPasses: float = 0.0
+    accurateOppositionHalfPassesAgainst: float = 0.0
+    accurateOwnHalfPasses: float = 0.0
+    accurateOwnHalfPassesAgainst: float = 0.0
+    accuratePasses: float = 0.0
+    accuratePassesAgainst: float = 0.0
+    aerialDuelsWon: float = 0.0
+    assists: float = 0.0
+    averageBallPossession: float = 0.0
+    avgRating: float = 0.0
+    awardedMatches: float = 0.0
+    bigChances: float = 0.0
+    bigChancesAgainst: float = 0.0
+    bigChancesCreated: float = 0.0
+    bigChancesCreatedAgainst: float = 0.0
+    bigChancesMissed: float = 0.0
+    bigChancesMissedAgainst: float = 0.0
+    cleanSheets: float = 0.0
+    clearances: float = 0.0
+    clearancesAgainst: float = 0.0
+    clearancesOffLine: float = 0.0
+    corners: float = 0.0
+    cornersAgainst: float = 0.0
+    crossesSuccessfulAgainst: float = 0.0
+    crossesTotalAgainst: float = 0.0
+    dribbleAttempts: float = 0.0
+    dribbleAttemptsTotalAgainst: float = 0.0
+    dribbleAttemptsWonAgainst: float = 0.0
+    duelsWon: float = 0.0
+    errorsLeadingToGoal: float = 0.0
+    errorsLeadingToGoalAgainst: float = 0.0
+    errorsLeadingToShot: float = 0.0
+    errorsLeadingToShotAgainst: float = 0.0
+    fastBreakGoals: float = 0.0
+    fastBreakShots: float = 0.0
+    fastBreaks: float = 0.0
+    fouls: float = 0.0
+    freeKickGoals: float = 0.0
+    freeKickShots: float = 0.0
+    goalsConceded: float = 0.0
+    goalsFromInsideTheBox: float = 0.0
+    goalsFromOutsideTheBox: float = 0.0
+    goalsScored: float = 0.0
+    groundDuelsWon: float = 0.0
+    headedGoals: float = 0.0
+    hitWoodwork: float = 0.0
+    hitWoodworkAgainst: float = 0.0
+    interceptions: float = 0.0
+    interceptionsAgainst: float = 0.0
+    keyPassesAgainst: float = 0.0
+    lastManTackles: float = 0.0
+    leftFootGoals: float = 0.0
+    longBallsSuccessfulAgainst: float = 0.0
+    longBallsTotalAgainst: float = 0.0
+    matches: float = 0.0
+    offsides: float = 0.0
+    offsidesAgainst: float = 0.0
+    oppositionHalfPassesTotalAgainst: float = 0.0
+    ownGoals: float = 0.0
+    ownHalfPassesTotalAgainst: float = 0.0
+    penaltiesCommited: float = 0.0
+    penaltiesTaken: float = 0.0
+    penaltyGoals: float = 0.0
+    penaltyGoalsConceded: float = 0.0
+    possessionLost: float = 0.0
+    redCards: float = 0.0
+    redCardsAgainst: float = 0.0
+    rightFootGoals: float = 0.0
+    saves: float = 0.0
+    shots: float = 0.0
+    shotsAgainst: float = 0.0
+    shotsBlockedAgainst: float = 0.0
+    shotsFromInsideTheBox: float = 0.0
+    shotsFromInsideTheBoxAgainst: float = 0.0
+    shotsFromOutsideTheBox: float = 0.0
+    shotsFromOutsideTheBoxAgainst: float = 0.0
+    shotsOffTarget: float = 0.0
+    shotsOffTargetAgainst: float = 0.0
+    shotsOnTarget: float = 0.0
+    shotsOnTargetAgainst: float = 0.0
+    successfulDribbles: float = 0.0
+    tackles: float = 0.0
+    tacklesAgainst: float = 0.0
+    totalAerialDuels: float = 0.0
+    totalCrosses: float = 0.0
+    totalDuels: float = 0.0
+    totalFinalThirdPassesAgainst: float = 0.0
+    totalGroundDuels: float = 0.0
+    totalLongBalls: float = 0.0
+    totalOppositionHalfPasses: float = 0.0
+    totalOwnHalfPasses: float = 0.0
+    totalPasses: float = 0.0
+    totalPassesAgainst: float = 0.0
+    yellowCards: float = 0.0
+    yellowCardsAgainst: float = 0.0
+    yellowRedCards: float = 0.0
+    id: int = 0
+
+    def build_model(self, awaited: AwaitingResultsModel):
+        self.id = awaited.id
+        self.accurateCrosses = awaited.accurateCrosses
+        self.accurateFinalThirdPassesAgainst = awaited.accurateFinalThirdPassesAgainst
+        self.accurateLongBalls = awaited.accurateLongBalls
+        self.accurateOppositionHalfPasses = awaited.accurateOppositionHalfPasses
+        self.accurateOppositionHalfPassesAgainst = awaited.accurateOppositionHalfPassesAgainst
+        self.accurateOwnHalfPasses = awaited.accurateOwnHalfPasses
+        self.accurateOwnHalfPassesAgainst = awaited.accurateOwnHalfPassesAgainst
+        self.accuratePasses = awaited.accuratePasses
+        self.accuratePassesAgainst = awaited.accuratePassesAgainst
+        self.aerialDuelsWon = awaited.aerialDuelsWon
+        self.assists = awaited.assists
+        self.averageBallPossession = awaited.averageBallPossession
+        self.avgRating = awaited.avgRating
+        self.awardedMatches = awaited.awardedMatches
+        self.bigChances = awaited.bigChances
+        self.bigChancesAgainst = awaited.bigChancesAgainst
+        self.bigChancesCreated = awaited.bigChancesCreated
+        self.bigChancesCreatedAgainst = awaited.bigChancesCreatedAgainst
+        self.bigChancesMissed = awaited.bigChancesMissed
+        self.bigChancesMissedAgainst = awaited.bigChancesMissedAgainst
+        self.cleanSheets = awaited.cleanSheets
+        self.clearances = awaited.clearances
+        self.clearancesAgainst = awaited.clearancesAgainst
+        self.clearancesOffLine = awaited.clearancesOffLine
+        self.corners = awaited.corners
+        self.cornersAgainst = awaited.cornersAgainst
+        self.crossesSuccessfulAgainst = awaited.crossesSuccessfulAgainst
+        self.crossesTotalAgainst = awaited.crossesTotalAgainst
+        self.dribbleAttempts = awaited.dribbleAttempts
+        self.dribbleAttemptsTotalAgainst = awaited.dribbleAttemptsTotalAgainst
+        self.dribbleAttemptsWonAgainst = awaited.dribbleAttemptsWonAgainst
+        self.duelsWon = awaited.duelsWon
+        self.errorsLeadingToGoal = awaited.errorsLeadingToGoal
+        self.errorsLeadingToGoalAgainst = awaited.errorsLeadingToGoalAgainst
+        self.errorsLeadingToShot = awaited.errorsLeadingToShot
+        self.errorsLeadingToShotAgainst = awaited.errorsLeadingToShotAgainst
+        self.fastBreakGoals = awaited.fastBreakGoals
+        self.fastBreakShots = awaited.fastBreakShots
+        self.fastBreaks = awaited.fastBreaks
+        self.fouls = awaited.fouls
+        self.freeKickGoals = awaited.freeKickGoals
+        self.freeKickShots = awaited.freeKickShots
+        self.goalsConceded = awaited.goalsConceded
+        self.goalsFromInsideTheBox = awaited.goalsFromInsideTheBox
+        self.goalsFromOutsideTheBox = awaited.goalsFromOutsideTheBox
+        self.goalsScored = awaited.goalsScored
+        self.groundDuelsWon = awaited.groundDuelsWon
+        self.headedGoals = awaited.headedGoals
+        self.hitWoodwork = awaited.hitWoodwork
+        self.hitWoodworkAgainst = awaited.hitWoodworkAgainst
+        self.interceptions = awaited.interceptions
+        self.interceptionsAgainst = awaited.interceptionsAgainst
+        self.keyPassesAgainst = awaited.keyPassesAgainst
+        self.lastManTackles = awaited.lastManTackles
+        self.leftFootGoals = awaited.leftFootGoals
+        self.longBallsSuccessfulAgainst = awaited.longBallsSuccessfulAgainst
+        self.longBallsTotalAgainst = awaited.longBallsTotalAgainst
+        self.matches = awaited.matches
+        self.offsides = awaited.offsides
+        self.offsidesAgainst = awaited.offsidesAgainst
+        self.oppositionHalfPassesTotalAgainst = awaited.oppositionHalfPassesTotalAgainst
+        self.ownGoals = awaited.ownGoals
+        self.ownHalfPassesTotalAgainst = awaited.ownHalfPassesTotalAgainst
+        self.penaltiesCommited = awaited.penaltiesCommited
+        self.penaltiesTaken = awaited.penaltiesTaken
+        self.penaltyGoals = awaited.penaltyGoals
+        self.penaltyGoalsConceded = awaited.penaltyGoalsConceded
+        self.possessionLost = awaited.possessionLost
+        self.redCards = awaited.redCards
+        self.redCardsAgainst = awaited.redCardsAgainst
+        self.rightFootGoals = awaited.rightFootGoals
+        self.saves = awaited.saves
+        self.shots = awaited.shots
+        self.shotsAgainst = awaited.shotsAgainst
+        self.shotsBlockedAgainst = awaited.shotsBlockedAgainst
+        self.shotsFromInsideTheBox = awaited.shotsFromInsideTheBox
+        self.shotsFromInsideTheBoxAgainst = awaited.shotsFromInsideTheBoxAgainst
+        self.shotsFromOutsideTheBox = awaited.shotsFromOutsideTheBox
+        self.shotsFromOutsideTheBoxAgainst = awaited.shotsFromOutsideTheBoxAgainst
+        self.shotsOffTarget = awaited.shotsOffTarget
+        self.shotsOffTargetAgainst = awaited.shotsOffTargetAgainst
+        self.shotsOnTarget = awaited.shotsOnTarget
+        self.shotsOnTargetAgainst = awaited.shotsOnTargetAgainst
+        self.successfulDribbles = awaited.successfulDribbles
+        self.tackles = awaited.tackles
+        self.tacklesAgainst = awaited.tacklesAgainst
+        self.totalAerialDuels = awaited.totalAerialDuels
+        self.totalCrosses = awaited.totalCrosses
+        self.totalDuels = awaited.totalDuels
+        self.totalFinalThirdPassesAgainst = awaited.totalFinalThirdPassesAgainst
+        self.totalGroundDuels = awaited.totalGroundDuels
+        self.totalLongBalls = awaited.totalLongBalls
+        self.totalOppositionHalfPasses = awaited.totalOppositionHalfPasses
+        self.totalOwnHalfPasses = awaited.totalOwnHalfPasses
+        self.totalPasses = awaited.totalPasses
+        self.totalPassesAgainst = awaited.totalPassesAgainst
+        self.yellowCards = awaited.yellowCards
+        self.yellowCardsAgainst = awaited.yellowCardsAgainst
+        self.yellowRedCards = awaited.yellowRedCards
+
+
+@dataclasses.dataclass()
+class AiPredictionResult:
+    home: str
+    away: str
+    time: str
+    homeWin: str
+    draw: str
+    awayWin: str

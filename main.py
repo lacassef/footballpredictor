@@ -6,7 +6,8 @@
 import persistence
 
 import matchservices
-from model.optimizedmodels import AwaitingResultsModel, AiTrainingModel
+import training
+from model.optimizedmodels import AwaitingResultsModel, AiTrainingModel, AiPredictionModel, AiPredictionResult
 
 
 def update_awaited_matches():
@@ -22,7 +23,7 @@ def update_awaited_matches():
                 perfH = matchservices.get_performance(ma.home, ma.season, ma.league)
                 perfA = matchservices.get_performance(ma.away, ma.season, ma.league)
             except:
-                print(f'Jogo {ma.homeName} vs {ma.awayName} sem dados')
+                print(f'Jogo {ma.id} sem dados')
                 continue
             awai = AwaitingResultsModel()
             awai.build_from_data(ma, perfH, perfA)
@@ -62,14 +63,38 @@ def update_results():
         print('Sem novos resultados!')
 
 
+def predict_today():
+    tod = matchservices.get_today_matches()
+    for i in tod:
+        if i['status'] == 0:
+            ma = matchservices.get_match(i['id'])
+            try:
+                perfH = matchservices.get_performance(ma.home, ma.season, ma.league)
+                perfA = matchservices.get_performance(ma.away, ma.season, ma.league)
+            except:
+                print(f'Jogo {ma.id} sem dados')
+                continue
+            awai = AwaitingResultsModel()
+            awai.build_from_data(ma, perfH, perfA)
+            wi = AiPredictionModel()
+            wi.build_model(awai)
+            pred = training.make_prediction(wi.__dict__)
+            result = AiPredictionResult(home=ma.homeName, away=ma.awayName,
+                                        time=str(ma.time), homeWin=('%.2f%%' % pred[0]),
+                                        awayWin=('%.2f%%' % pred[2]), draw=('%.2f%%' % pred[1]))
+            print(result.__dict__)
+
+
 if __name__ == '__main__':
     print('Realizando check-ups')
     update_awaited_matches()
     update_results()
     while True:
         print('Escolha a sua operação (zero para sair):')
-        ok = int(input('Esc: \n '))
+        ok = int(input('1 -> Obter predições de hoje: \n '))
         if ok == 0:
             break
+        elif ok == 1:
+            predict_today()
 
     pass

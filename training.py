@@ -2,6 +2,7 @@ import pandas
 
 
 # mlp for multi-label classification
+import pandas as pd
 from numpy import mean, asarray, std
 from sklearn.model_selection import RepeatedKFold
 from keras.models import Sequential
@@ -55,7 +56,7 @@ def evaluate_model(X, y):
     return results
 
 
-def make_prediction(mat: []) -> []:
+def make_prediction(mat: dict) -> []:
     # load dataset
     X, y = get_training_data()
     n_inputs, n_outputs = X.shape[1], y.shape[1]
@@ -67,7 +68,9 @@ def make_prediction(mat: []) -> []:
     model.fit(X, y, verbose=0, epochs=100)
     # make a prediction for new data
     # row = [3, 3, 6, 7, 8, 2, 11, 11, 1, 3]
-    newX = asarray([mat])
+    mat = pd.DataFrame([mat])
+    dataset = mat.drop('awardedMatches', axis=1).drop('id', axis=1).values
+    newX = dataset[:,0:98].astype(float)
     newX = st_x.transform(newX)
     yhat = model.predict(newX)
-    return yhat
+    return yhat[0]
