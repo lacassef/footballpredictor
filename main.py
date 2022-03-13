@@ -146,7 +146,10 @@ if __name__ == '__main__':
     update_results()
     while True:
         print('Escolha a sua operação (zero para sair):')
-        ok = int(input('1 -> Avaliar modelo\n2 -> Obter predições de hoje\n3 -> Obter predições de outra data\n'))
+        try:
+            ok = int(input('1 -> Avaliar modelo\n2 -> Obter predições de hoje\n3 -> Obter predições de outra data\n'))
+        except:
+            continue
         if ok == 0:
             break
         elif ok == 2:
