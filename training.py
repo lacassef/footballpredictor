@@ -44,7 +44,7 @@ def evaluate_model(X, y):
         X_train = st_x.fit_transform(X_train)
         X_test = st_x.transform(X_test)
         # fit model
-        model.fit(X_train, y_train, verbose=0, epochs=100)
+        model.fit(X_train, y_train, verbose=0, epochs=150)
         # make a prediction on the test set
         yhat = model.predict(X_test)
         # round probabilities to class labels
@@ -65,7 +65,7 @@ def make_prediction(mat: dict) -> []:
     # fit the model on all data
     st_x = MinMaxScaler()
     X = st_x.fit_transform(X)
-    model.fit(X, y, verbose=0, epochs=100)
+    model.fit(X, y, verbose=0, epochs=150)
     # make a prediction for new data
     # row = [3, 3, 6, 7, 8, 2, 11, 11, 1, 3]
     mat = pd.DataFrame([mat])
