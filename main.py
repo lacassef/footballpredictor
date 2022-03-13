@@ -69,7 +69,10 @@ def predict_today():
     results = []
     for i in tod:
         if i['status'] == 0:
-            ma = matchservices.get_match(i['id'])
+            try:
+                ma = matchservices.get_match(i['id'])
+            except:
+                continue
             try:
                 perfH = matchservices.get_performance(ma.home, ma.season, ma.league)
                 perfA = matchservices.get_performance(ma.away, ma.season, ma.league)
@@ -82,15 +85,16 @@ def predict_today():
             wi.build_model(awai)
             pred = training.make_prediction(wi.__dict__)
             result = AiPredictionResult(home=ma.homeName, away=ma.awayName,
-                                        time=ma.time, homeWin=('%.2f%%' % pred[0]),
-                                        awayWin=('%.2f%%' % pred[2]), draw=('%.2f%%' % pred[1]),
-                                        date = ma.date)
+                                        time=ma.time, homeWin=('%.2f%%' % (float(pred[0]) * 100)),
+                                        awayWin=('%.2f%%' % (float(pred[2]) * 100)), draw=('%.2f%%' % (float(pred[1]) * 100)),
+                                        date=ma.date)
             results.append(result)
-    if len(results)>0:
+    if len(results) > 0:
         with pd.ExcelWriter('predicoes.xlsx',
-                        mode='a+') as writer:
+                            mode='a', if_sheet_exists="replace") as writer:
             df = pd.DataFrame(results)
-            df.to_excel(writer, sheet_name = results[0].date)
+            df.to_excel(writer, sheet_name=results[0].date.replace('/', '-'),
+                        index=False)
 
 
 if __name__ == '__main__':

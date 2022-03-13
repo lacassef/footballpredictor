@@ -736,8 +736,8 @@ class AiPredictionModel:
 class AiPredictionResult:
     home: str
     away: str
-    time: str
     homeWin: str
     draw: str
     awayWin: str
+    time: str
     date: str
