@@ -15,8 +15,6 @@ def get_training_data():
     dataset = dataframe.drop('awardedMatches', axis=1).drop('id', axis=1).values
     X = dataset[:, 0:98].astype(float)
     y = dataset[:, 98:].astype(int)
-    st_x = MinMaxScaler()
-    X = st_x.fit_transform(X)
     return X, y
 
 
@@ -54,16 +52,19 @@ def evaluate_model(X, y):
     return results
 
 
-def make_prediction(mat: []):
+def make_prediction(mat: []) -> []:
     # load dataset
     X, y = get_training_data()
     n_inputs, n_outputs = X.shape[1], y.shape[1]
     # get model
     model = get_model(n_inputs, n_outputs)
     # fit the model on all data
+    st_x = MinMaxScaler()
+    X = st_x.fit_transform(X)
     model.fit(X, y, verbose=0, epochs=100)
     # make a prediction for new data
     # row = [3, 3, 6, 7, 8, 2, 11, 11, 1, 3]
     newX = asarray([mat])
+    newX = st_x.transform(newX)
     yhat = model.predict(newX)
-    return yhat[0]
+    return yhat
