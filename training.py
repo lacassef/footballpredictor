@@ -20,7 +20,7 @@ def get_training_data():
 
 def get_model(n_inputs, n_outputs):
     model = Sequential()
-    model.add(Dense(20, input_dim=n_inputs, kernel_initializer='he_uniform', activation='relu'))
+    model.add(Dense(90, input_dim=n_inputs, kernel_initializer='he_uniform', activation='relu'))
     model.add(Dense(n_outputs, activation='sigmoid'))
     model.compile(loss='binary_crossentropy', optimizer='adam')
     # model.fit(X, y, epochs=150, batch_size=10)
@@ -39,6 +39,9 @@ def evaluate_model(X, y):
         y_train, y_test = y[train_ix], y[test_ix]
         # define model
         model = get_model(n_inputs, n_outputs)
+        st_x = MinMaxScaler()
+        X_train = st_x.fit_transform(X_train)
+        X_test = st_x.transform(X_test)
         # fit model
         model.fit(X_train, y_train, verbose=0, epochs=100)
         # make a prediction on the test set
