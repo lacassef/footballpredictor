@@ -3,7 +3,7 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import pandas as pd
-from numpy import mean, std
+from numpy import mean, asarray, std
 
 import persistence
 
@@ -66,6 +66,7 @@ def update_results():
 
 
 def predict_today():
+    print('Começou a predição')
     tod = matchservices.get_today_matches()
     results = []
     for i in tod:
