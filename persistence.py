@@ -28,6 +28,17 @@ def check_already_training(training: list) -> []:
     return actual
 
 
+def check_already_both_score(training: list) -> []:
+    actual = []
+    with open(file='persistence/bothscore.csv', mode='r+', newline='') as file:
+        writer = csv.DictReader(file)
+        ids = [i['id'] for i in writer]
+        for row in training:
+            if not (str(row.id) in ids):
+                actual.append(row)
+    return actual
+
+
 def save_awaiting_games(fields: [], awaited: list):
     actual = []
     with open(file='persistence/awaited.csv', mode='r+', newline='') as file:
@@ -52,6 +63,21 @@ def save_training_games(fields: [], training: list[dict]):
             if not (str(row['id']) in ids):
                 actual.append(row)
     with open(file='persistence/training.csv', mode='a+', newline='') as file:
+        writer = csv.DictWriter(file, fields)
+        if not file.tell():
+            writer.writeheader()
+        writer.writerows(actual)
+
+
+def save_both_score_games(fields: [], training: list[dict]):
+    actual = []
+    with open(file='persistence/bothscore.csv', mode='r+', newline='') as file:
+        writer = csv.DictReader(file, fields)
+        ids = [i['id'] for i in writer]
+        for row in training:
+            if not (str(row['id']) in ids):
+                actual.append(row)
+    with open(file='persistence/bothscore.csv', mode='a+', newline='') as file:
         writer = csv.DictWriter(file, fields)
         if not file.tell():
             writer.writeheader()

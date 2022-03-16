@@ -9,7 +9,8 @@ import persistence
 
 import matchservices
 import training
-from model.optimizedmodels import AwaitingResultsModel, AiTrainingModel, AiPredictionModel, AiPredictionResult
+from model.optimizedmodels import AwaitingResultsModel, AiTrainingModel, AiPredictionModel, AiPredictionResult, \
+    AiBothScoreModel
 
 
 def update_awaited_matches():
@@ -42,8 +43,11 @@ def update_awaited_matches():
 def update_results():
     loads = persistence.load_awaiting_games()
     okw = persistence.check_already_training(loads)
+    oka = persistence.check_already_both_score(loads)
     training = []
+    both = []
     fields: [] = None
+    fields_btts: [] = None
     for l in okw:
         # print('Executed')
         try:
@@ -58,8 +62,23 @@ def update_results():
             training.append(i.__dict__)
             if fields is None:
                 fields = [*i.__dict__.keys()]
+    for l in oka:
+        # print('Executed')
+        try:
+            m = matchservices.get_match(l.id)
+        except:
+            print(f'Jogo {l.id} sem match')
+            continue
+        if m.status == 100 or m.status == 120 or m.status == 110:
+            i = AiBothScoreModel()
+            i.build_model(m, l)
+            # print(i)
+            both.append(i.__dict__)
+            if fields_btts is None:
+                fields_btts = [*i.__dict__.keys()]
     persistence.save_training_games(fields, training)
-    if len(training) > 0:
+    persistence.save_both_score_games(fields_btts, both)
+    if len(training) > 0 or len(both) > 0:
         print('Resultados atualizados!')
     else:
         print('Sem novos resultados!')
@@ -100,9 +119,9 @@ def predict_today():
 
 
 def predict_date():
-    date = int(input('Insira o dia'))
-    month = int(input('Insira o mes'))
-    year = int(input('Insira o ano'))
+    date = int(input('Insira o dia\n'))
+    month = int(input('Insira o mes\n'))
+    year = int(input('Insira o ano\n'))
     tod = matchservices.get_matches_from_date(year, month, date)
     results = []
     for i in tod:
