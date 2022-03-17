@@ -156,7 +156,9 @@ def predict_date():
                             mode='a', if_sheet_exists="replace") as writer:
             df = pd.DataFrame(results)
             df.to_excel(writer, sheet_name=results[0].date.replace('/', '-'),
-                        index=False)
+                        index=False, header=['Casa', 'Fora', 'Casa vence', 'Empate', 'Fora vence',
+                                             'Horas', 'Ambas marcam', 'Data'],
+                        freeze_panes=[1, 0])
 
 
 def evaluate_model():
