@@ -5,6 +5,7 @@
 import pandas as pd
 from numpy import mean, asarray, std
 
+import bothtoscore
 import persistence
 
 import matchservices
@@ -105,10 +106,12 @@ def predict_today():
             wi = AiPredictionModel()
             wi.build_model(awai)
             pred = training.make_prediction(wi.__dict__)
+            predbtts = bothtoscore.make_prediction(wi.__dict__)
             result = AiPredictionResult(home=ma.homeName, away=ma.awayName,
                                         time=ma.time, homeWin=('%.2f%%' % (float(pred[0]) * 100)),
-                                        awayWin=('%.2f%%' % (float(pred[2]) * 100)), draw=('%.2f%%' % (float(pred[1]) * 100)),
-                                        date=ma.date)
+                                        awayWin=('%.2f%%' % (float(pred[2]) * 100)),
+                                        draw=('%.2f%%' % (float(pred[1]) * 100)),
+                                        date=ma.date, bothToScore=('%.2f%%' % (float(predbtts[0]) * 100)))
             results.append(result)
     if len(results) > 0:
         with pd.ExcelWriter('predicoes.xlsx',
@@ -141,10 +144,12 @@ def predict_date():
             wi = AiPredictionModel()
             wi.build_model(awai)
             pred = training.make_prediction(wi.__dict__)
+            predbtts = bothtoscore.make_prediction(wi.__dict__)
             result = AiPredictionResult(home=ma.homeName, away=ma.awayName,
                                         time=ma.time, homeWin=('%.2f%%' % (float(pred[0]) * 100)),
-                                        awayWin=('%.2f%%' % (float(pred[2]) * 100)), draw=('%.2f%%' % (float(pred[1]) * 100)),
-                                        date=ma.date)
+                                        awayWin=('%.2f%%' % (float(pred[2]) * 100)),
+                                        draw=('%.2f%%' % (float(pred[1]) * 100)),
+                                        date=ma.date, bothToScore=('%.2f%%' % (float(predbtts[0]) * 100)))
             results.append(result)
     if len(results) > 0:
         with pd.ExcelWriter('predicoes.xlsx',
@@ -160,6 +165,12 @@ def evaluate_model():
     print('Average accuracy: %.2f%% \nStandart deviation: %.2f%%' % ((mean(results)) * 100, (std(results) * 100)))
 
 
+def evaluate_btts_model():
+    X, y = bothtoscore.get_training_data()
+    results = bothtoscore.evaluate_model(X, y)
+    print('Average accuracy: %.2f%% \nStandart deviation: %.2f%%' % ((mean(results)) * 100, (std(results) * 100)))
+
+
 if __name__ == '__main__':
     print('Realizando check-ups')
     update_awaited_matches()
@@ -167,7 +178,8 @@ if __name__ == '__main__':
     while True:
         print('Escolha a sua operação (zero para sair):')
         try:
-            ok = int(input('1 -> Avaliar modelo\n2 -> Obter predições de hoje\n3 -> Obter predições de outra data\n'))
+            ok = int(
+                input('1 -> Avaliar os modelos\n2 -> Obter predições de hoje\n3 -> Obter predições de outra data\n'))
         except:
             continue
         if ok == 0:
@@ -175,7 +187,10 @@ if __name__ == '__main__':
         elif ok == 2:
             predict_today()
         elif ok == 1:
+            print('Vencedor do jogo')
             evaluate_model()
+            print('Ambas marcam')
+            evaluate_btts_model()
         elif ok == 3:
             predict_date()
 

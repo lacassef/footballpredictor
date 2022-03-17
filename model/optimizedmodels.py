@@ -949,4 +949,5 @@ class AiPredictionResult:
     draw: str
     awayWin: str
     time: str
+    bothToScore: str
     date: str
