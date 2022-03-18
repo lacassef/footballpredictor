@@ -2,6 +2,8 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import time
+
 import pandas as pd
 from numpy import mean, asarray, std
 
@@ -156,9 +158,8 @@ def predict_date():
                             mode='a', if_sheet_exists="replace") as writer:
             df = pd.DataFrame(results)
             df.to_excel(writer, sheet_name=results[0].date.replace('/', '-'),
-                        index=False, header=['Casa', 'Fora', 'Casa vence', 'Empate', 'Fora vence',
-                                             'Horas', 'Ambas marcam', 'Data'],
-                        freeze_panes=[1, 0])
+                        index=False, header=['Casa', 'Fora', 'Casa vence', 'Empate', 'Fora vence', 'Horas', 'Ambas marcam', 'Data'],
+                        freeze_panes=[1, 2])
 
 
 def evaluate_model():
@@ -175,6 +176,9 @@ def evaluate_btts_model():
 
 if __name__ == '__main__':
     print('Realizando check-ups')
+    # print('sleeping')
+    # time.sleep(2*60*60+5*60)
+    # print('continues')
     update_awaited_matches()
     update_results()
     while True:
