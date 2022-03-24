@@ -75,6 +75,7 @@ def make_prediction(mat: dict) -> []:
     mat = pd.DataFrame([mat])
     dataset = mat.drop('awardedMatches', axis=1).drop('id', axis=1).values
     newX = dataset[:, 0:98].astype(float)
+    # print(newX.shape)
     newX = st_x.transform(newX)
     yhat = model.predict(newX)
     return yhat[0]

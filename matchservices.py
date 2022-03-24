@@ -17,7 +17,7 @@ def get_today_matches() -> list:
 
 def get_matches_from_date(year, month, day) -> list:
     # print('getting...')
-    date = datetime(year=year, month=month, day=day, hour=12, minute=30)
+    date = datetime(year=year, month=month, day=day)
     req = requests.get(f'http://localhost:8081/api/matches/schedules/{round(date.timestamp() * 1000)}')
     if req.status_code == 200:
         return req.json()

@@ -90,6 +90,7 @@ def update_results():
 def predict_today():
     print('Começou a predição')
     tod = matchservices.get_today_matches()
+    print(len(tod))
     results = []
     for i in tod:
         if i['status'] == 0:
@@ -115,6 +116,7 @@ def predict_today():
                                         draw=('%.2f%%' % (float(pred[1]) * 100)),
                                         date=ma.date, bothToScore=('%.2f%%' % (float(predbtts[0]) * 100)))
             results.append(result)
+    print(len(results))
     if len(results) > 0:
         with pd.ExcelWriter('predicoes.xlsx',
                             mode='a', if_sheet_exists="replace") as writer:
@@ -158,8 +160,7 @@ def predict_date():
                             mode='a', if_sheet_exists="replace") as writer:
             df = pd.DataFrame(results)
             df.to_excel(writer, sheet_name=results[0].date.replace('/', '-'),
-                        index=False, header=['Casa', 'Fora', 'Casa vence', 'Empate', 'Fora vence', 'Horas', 'Ambas marcam', 'Data'],
-                        freeze_panes=[1, 2])
+                        index=False)
 
 
 def evaluate_model():
@@ -177,7 +178,7 @@ def evaluate_btts_model():
 if __name__ == '__main__':
     print('Realizando check-ups')
     # print('sleeping')
-    # time.sleep(2*60*60+5*60)
+    # time.sleep(2*60*60+45*60)
     # print('continues')
     update_awaited_matches()
     update_results()
